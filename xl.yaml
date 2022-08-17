@@ -1,0 +1,267 @@
+port: 7891
+socks-port: 7892
+mixed-port: 7890
+allow-lan: true
+bind-address: '*'
+ipv6: false
+mode: rule
+log-level: info
+unified-delay: true
+geodata-mode: true
+tcp-concurrent: true
+
+sniffer:
+  enable: true
+  sniffing: [ tls, http ]
+  port-whitelist: [ 80, 443 ]
+
+dns:
+  enable: true
+  ipv6: false
+  listen: 0.0.0.0:1053
+  default-nameserver: [ 8.8.8.8, 8.8.4.4 ]
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+  - "*.lan"
+  - "*.localdomain"
+  - "*.example"
+  - "*.invalid"
+  - "*.localhost"
+  - "*.test"
+  - "*.local"
+  - "*.home.arpa"
+  - time.*.com
+  - time.*.gov
+  - time.*.edu.cn
+  - time.*.apple.com
+  - time-ios.apple.com
+  - time1.*.com
+  - time2.*.com
+  - time3.*.com
+  - time4.*.com
+  - time5.*.com
+  - time6.*.com
+  - time7.*.com
+  - ntp.*.com
+  - ntp1.*.com
+  - ntp2.*.com
+  - ntp3.*.com
+  - ntp4.*.com
+  - ntp5.*.com
+  - ntp6.*.com
+  - ntp7.*.com
+  - "*.time.edu.cn"
+  - "*.ntp.org.cn"
+  - "+.pool.ntp.org"
+  - time1.cloud.tencent.com
+  - music.163.com
+  - "*.music.163.com"
+  - "*.126.net"
+  - musicapi.taihe.com
+  - music.taihe.com
+  - songsearch.kugou.com
+  - trackercdn.kugou.com
+  - "*.kuwo.cn"
+  - api-jooxtt.sanook.com
+  - api.joox.com
+  - joox.com
+  - y.qq.com
+  - "*.y.qq.com"
+  - streamoc.music.tc.qq.com
+  - mobileoc.music.tc.qq.com
+  - isure.stream.qqmusic.qq.com
+  - dl.stream.qqmusic.qq.com
+  - aqqmusic.tc.qq.com
+  - amobile.music.tc.qq.com
+  - "*.xiami.com"
+  - "*.music.migu.cn"
+  - music.migu.cn
+  - "+.msftconnecttest.com"
+  - "+.msftncsi.com"
+  - msftconnecttest.com
+  - msftncsi.com
+  - localhost.ptlogin2.qq.com
+  - localhost.sec.qq.com
+  - "+.srv.nintendo.net"
+  - "*.n.n.srv.nintendo.net"
+  - "+.stun.playstation.net"
+  - xbox.*.*.microsoft.com
+  - "*.*.xboxlive.com"
+  - xbox.*.microsoft.com
+  - xnotify.xboxlive.com
+  - "+.battlenet.com.cn"
+  - "+.wotgame.cn"
+  - "+.wggames.cn"
+  - "+.wowsgame.cn"
+  - "+.wargaming.net"
+  - proxy.golang.org
+  - stun.*.*
+  - stun.*.*.*
+  - "+.stun.*.*"
+  - "+.stun.*.*.*"
+  - "+.stun.*.*.*.*"
+  - "+.stun.*.*.*.*.*"
+  - heartbeat.belkin.com
+  - "*.linksys.com"
+  - "*.linksyssmartwifi.com"
+  - "*.router.asus.com"
+  - mesu.apple.com
+  - swscan.apple.com
+  - swquery.apple.com
+  - swdownload.apple.com
+  - swcdn.apple.com
+  - swdist.apple.com
+  - lens.l.google.com
+  - stun.l.google.com
+  - "+.nflxvideo.net"
+  - "*.square-enix.com"
+  - "*.finalfantasyxiv.com"
+  - "*.ffxiv.com"
+  - "*.ff14.sdo.com"
+  - ff.dorado.sdo.com
+  - "*.mcdn.bilivideo.cn"
+  - "+.media.dssott.com"
+  - shark007.net
+  use-hosts: true
+  nameserver: [ 8.8.8.8, 8.8.4.4, https://dns.google/dns-query, tls://dns.google:853 ]
+  fallback: [ 76.76.2.2, 76.76.10.2, https://freedns.controld.com/p2, tls://p2.freedns.controld.com:853 ]
+  fallback-filter:
+    geoip: true
+    geoip-code: ID
+    geosite: [ gfw ]
+    ipcidr:
+    - 0.0.0.0/8
+    - 10.0.0.0/8
+    - 100.64.0.0/10
+    - 127.0.0.0/8
+    - 169.254.0.0/16
+    - 172.16.0.0/12
+    - 192.0.0.0/24
+    - 192.0.2.0/24
+    - 192.88.99.0/24
+    - 192.168.0.0/16
+    - 198.18.0.0/15
+    - 198.51.100.0/24
+    - 203.0.113.0/24
+    - 224.0.0.0/4
+    - 240.0.0.0/4
+    - 255.255.255.255/32
+    domain:
+    - "+.google.com"
+    - "+.facebook.com"
+    - "+.youtube.com"
+    - "+.githubusercontent.com"
+    - "+.googlevideo.com"
+    - "+.msftconnecttest.com"
+    - "+.msftncsi.com"
+    - msftconnecttest.com
+    - msftncsi.com
+
+
+##===============================================##
+connectivity-check: &check
+  interval: 150
+  url: 'http://cp.cloudflare.com/generate_204'
+
+health-check: &hc
+    type: http
+    interval: 86400
+    health-check:
+      enable: true
+      <<: *check
+
+Group: &group
+  type: select
+  proxies:
+    - ❄️ Vmess 443
+    - 🌠 Vmess 80
+    - ⛈️ Vmess MIX
+    - 🔥 Vmess 443 (URL-TEST)
+    - 🌸 Vmess 80 (URL-TEST)
+    - 🍀 Vmess MIX (URL-TEST)
+    - 🚦 Vmess 443 (LOAD-BALANCE)
+    - 🎀 Vness 80 (LOAD-BALANCE)
+    - 🎖️ Vmess MIX (LOAD-BALANCE)
+
+1: &1
+  use:
+    - vmess443
+2: &2
+  use:
+    - vmess80
+all: &all
+  use:
+    - vmess443
+    - vmess80
+
+select-443: &select-443
+  type: select
+  <<: *1
+select-80: &select-80
+  type: select
+  <<: *2
+select-mix: &select-mix
+  type: select
+  <<: *all
+
+urltest-443: &urltest-443
+  type: url-test
+  <<: [ *check, *1 ]
+urltest-80: &urltest-80
+  type: url-test
+  <<: [ *check, *2 ]
+urltest-mix: &urltest-mix
+  type: url-test
+  <<: [ *check, *all ]
+
+lb-443: &lb-443
+  type: load-balance
+  strategy: consistent-hashing
+  <<: [ *check, *1 ]
+lb-80: &lb-80
+  type: load-balance
+  strategy: consistent-hashing
+  <<: [ *check, *2 ]
+lb-mix: &lb-mix
+  type: load-balance
+  strategy: consistent-hashing
+  <<: [ *check, *all ]
+##===============================================##
+
+
+proxy-providers:
+  vmess443:
+    path: ./Proxy/vmess443.yaml
+    url: 'https://is.gd/KfUndx'
+    <<: *hc
+
+  vmess80:
+    path: ./Proxy/vmess80.yaml
+    url: 'https://is.gd/zsaRP5'
+    <<: *hc
+
+proxy-groups:
+  - name: 🔑 CLASH
+    <<: *group
+  - name: ❄️ Vmess 443
+    <<: *select-443
+  - name: 🌠 Vmess 80
+    <<: *select-80
+  - name: ⛈️ Vmess MIX
+    <<: *select-mix
+  - name: 🔥 Vmess 443 (URL-TEST)
+    <<: *urltest-443
+  - name: 🌸 Vmess 80 (URL-TEST)
+    <<: *urltest-80
+  - name: 🍀 Vmess MIX (URL-TEST)
+    <<: *urltest-mix
+  - name: 🚦 Vmess 443 (LOAD-BALANCE)
+    <<: *lb-443
+  - name: 🎀 Vness 80 (LOAD-BALANCE)
+    <<: *lb-80
+  - name: 🎖️ Vmess MIX (LOAD-BALANCE)
+    <<: *lb-mix
+
+rules:
+  - MATCH,🔑 CLASH
